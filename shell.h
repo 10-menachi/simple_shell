@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,4 +9,6 @@
 
 #define MAX_INPUT_LENGTH 256
 
-#endif /* MAIN_H */
+void parse_input(char *input, char **args);
+
+#endif /* SHELL_H */

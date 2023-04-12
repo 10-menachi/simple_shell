@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * main - Entry Point
@@ -9,6 +9,7 @@
 int main(void)
 {
 	char prompt[MAX_INPUT_LENGTH];
+	char *args[MAX_INPUT_LENGTH / 2 + 1];
 	pid_t pid;
 
 	while (1)
@@ -17,10 +18,11 @@ int main(void)
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
+		parse_input(prompt, args);
 		pid = fork();
 		if (pid == 0)
 		{
-			execlp(prompt, prompt, NULL);
+			execvp(args[0], args);
 			fprintf(stderr, "Command not found.\n");
 			exit(EXIT_FAILURE);
 		}
