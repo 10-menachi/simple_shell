@@ -1,3 +1,8 @@
+/**
+* find_path - takes a command name as input and searches for its full path in the directories listed in the PATH 
+* return: the full path if the command is found and is executable, otherwise it returns NULL.
+*
+*/
 #include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
