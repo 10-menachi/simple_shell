@@ -14,7 +14,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("$ ");
+		printf("#cisfun$ ");
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
