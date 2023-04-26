@@ -26,6 +26,7 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 	while (1)
 	{
 	if (buffer_pos == 0)
+	{
 		size_t bytes_read = fread(buffer, 1, BUFFER_SIZE, stream);
 	if (bytes_read == 0)
 		return (-1);
