@@ -47,3 +47,63 @@ int _strcmp(char *s1, char *s2)
 
 	return (r);
 }
+
+/**
+ * strtrim - removes trailing wwhitespace from a string
+ * @str: given string
+ *
+ * Return: trimmed string
+ */
+
+char *strtrim(char *str)
+{
+	char *end;
+
+	while (isspace((unsigned char)*str))
+		str++;
+	if (*str == '\0')
+		return (str);
+	end = str + strlen(str) - 1;
+	while (end > str && isspace((unsigned char)*end))
+		end--;
+	end[1] = '\0';
+	return (str);
+}
+
+/**
+ * _strtok - tokenizes a string
+ * @str: the string to be tokenized
+ * @delim: the delimiter to use
+ * Return: a pointer to the next token
+ */
+char *_strtok(char *str, const char *delim)
+{
+	static char *last;
+	char *tok;
+	const char *delim_pos;
+	if (str)
+		last = str;
+	if (!*last)
+		return (NULL);
+	tok = last;
+	while (*last)
+	{
+		delim_pos = delim;
+		while (*delim_pos)
+		{
+			if (*last == *delim_pos)
+			{
+				*last = '\0';
+				last++;
+				if (*tok)
+					return (tok);
+				else
+					tok = last;
+				break;
+			}
+			delim_pos++;
+		}
+		last++;
+	}
+	return (tok);
+}
