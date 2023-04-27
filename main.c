@@ -10,11 +10,13 @@ int main(void)
 {
 	char prompt[MAX_INPUT_LENGTH];
 	char *args[MAX_INPUT_LENGTH / 2 + 1];
+	char error_msg[] = "Command not found.\n";
+	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
 
 	while (1)
 	{
-		printf("#cisfun$ ");
+		write(STDOUT_FILENO, "#cisfun$ ", 9);
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
@@ -23,12 +25,12 @@ int main(void)
 		if (pid == 0)
 		{
 			execvp(args[0], args);
-			fprintf(stderr, "Command not found.\n");
+			write(STDERR_FILENO, error_msg, sizeof(error_msg));
 			exit(EXIT_FAILURE);
 		}
 		else if (pid < 0)
 		{
-			fprintf(stderr, "Failed to fork.\n");
+			write(STDERR_FILENO, error_msg, sizeof(error_msg_fork));
 			exit(EXIT_FAILURE);
 		}
 		else

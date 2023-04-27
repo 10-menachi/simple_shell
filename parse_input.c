@@ -18,4 +18,6 @@ void parse_input(char *input, char **args)
 		arg = strtok(NULL, " ");
 	}
 	args[i] = NULL;
+	if (_strcmp(args[0], "exit") == 0)
+		exit(0);
 }
