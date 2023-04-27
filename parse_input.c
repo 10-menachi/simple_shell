@@ -11,10 +11,15 @@ void parse_input(char *input, char **args)
 {
 	char *arg = strtok(input, " ");
 	int i = 0;
+	char *trimmed_arg;
 
 	while (arg)
 	{
-		args[i++] = arg;
+		trimmed_arg = strtrim(arg);
+		if (trimmed_arg)
+		{
+			args[i++] = trimmed_arg;
+		}
 		arg = strtok(NULL, " ");
 	}
 	args[i] = NULL;
