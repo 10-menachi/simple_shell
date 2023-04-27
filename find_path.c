@@ -26,7 +26,8 @@ char *find_path(char *command)
 	full_path = malloc(path_len * sizeof(char));
 	sprintf(full_path, "%s/%s", dir, command);
 
-	if (stat(full_path, &buffer) == 0 && S_ISREG(buffer.st_mode) && (buffer.st_mode & S_IXUSR))
+	if (stat(full_path, &buffer) == 0 && S_ISREG(buffer.st_mode)
+			&& (buffer.st_mode & S_IXUSR))
 	{
 	free(path_buffer);
 	return (full_path);
