@@ -13,4 +13,5 @@
 void parse_input(char *input, char **args);
 size_t my_getline(char **lineptr, size_t *n, FILE *stream);
 char *strtrim(char *str);
+char *find_path(char *command);
 #endif /* SHELL_H */

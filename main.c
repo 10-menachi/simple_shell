@@ -11,6 +11,7 @@ int main(void)
 	char prompt[MAX_INPUT_LENGTH];
 	char *args[MAX_INPUT_LENGTH / 2 + 1];
 	pid_t pid;
+	char *cmd;
 
 	while (1)
 	{
@@ -19,6 +20,12 @@ int main(void)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
 		parse_input(prompt, args);
+		cmd = find_path(args[0]);
+		if (!cmd)
+		{
+			fprintf(stderr, "Command not found.\n");
+			continue;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
@@ -35,6 +42,7 @@ int main(void)
 		{
 			wait(NULL);
 		}
+		free(cmd);
 	}
 	return (0);
 }
