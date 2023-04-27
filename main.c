@@ -13,6 +13,7 @@ int main(void)
 	char error_msg[] = "Command not found.\n";
 	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
+	char *cmd;
 
 	while (1)
 	{
@@ -21,10 +22,16 @@ int main(void)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
 		parse_input(prompt, args);
+		cmd = find_path(args[0]);
+		if (!cmd)
+		{
+			write(STDERR_FILENO, error_msg, sizeof(error_msg));
+			continue;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
-			execvp(args[0], args);
+			execvp(cmd, args);
 			write(STDERR_FILENO, error_msg, sizeof(error_msg));
 			exit(EXIT_FAILURE);
 		}
@@ -37,6 +44,7 @@ int main(void)
 		{
 			wait(NULL);
 		}
+		free(cmd);
 	}
 	return (0);
 }
