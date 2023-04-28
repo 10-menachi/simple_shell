@@ -83,8 +83,6 @@ void shell_loop(int *exit_status)
 	}
 }
 
-#include "shell.h"
-
 /**
  * main - entry point
  * Return: 0
