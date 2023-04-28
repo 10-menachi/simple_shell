@@ -43,7 +43,8 @@ void shell_loop(int *exit_status)
 {
 	char prompt[MAX_INPUT_LENGTH], *args[MAX_INPUT_LENGTH / 2 + 1];
 	int show_prompt = isatty(STDIN_FILENO);
-	char *comment_start;
+	char *comment_start, prev_char, *p;
+	int inside_quotes;
 
 	while (1)
 	{
@@ -51,7 +52,20 @@ void shell_loop(int *exit_status)
 			write(STDOUT_FILENO, "#cisfun$ ", 9);
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
-		comment_start = strchr(prompt, '#');
+		inside_quotes = 0;
+		prev_char = '\0';
+		comment_start = NULL;
+		for (p = prompt; *p != '\0'; ++p)
+		{
+			if (*p == '"' && prev_char != '\\')
+				inside_quotes = !inside_quotes;
+			else if (*p == '#' && !inside_quotes && prev_char != '\\')
+			{
+				comment_start = p;
+				break;
+			}
+			prev_char = *p;
+		}
 		if (comment_start != NULL)
 			*comment_start = '\0';
 		prompt[strcspn(prompt, "\n")] = '\0';
