@@ -5,12 +5,12 @@
  */
 int main(void)
 {
-	char prompt[MAX_INPUT_LENGTH];
-	char *args[MAX_INPUT_LENGTH / 2 + 1];
+	char prompt[MAX_INPUT_LENGTH], *args[MAX_INPUT_LENGTH / 2 + 1];
 	char error_msg[] = "Command not found.\n";
 	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
 	int show_prompt = isatty(STDIN_FILENO);
+
 	while (1)
 	{
 		if (show_prompt)
@@ -21,6 +21,11 @@ int main(void)
 		parse_input(prompt, args);
 		if (args[0] == NULL)
 			continue;
+		if (access(args[0], F_OK | X_OK) != 0)
+		{
+			write(STDERR_FILENO, error_msg, sizeof(error_msg));
+			continue;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
