@@ -22,6 +22,8 @@ int main(void)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
 		parse_input(prompt, args);
+		if (args[0] == NULL)
+			continue;
 		pid = fork();
 		if (pid == 0)
 		{
