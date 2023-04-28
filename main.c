@@ -13,7 +13,6 @@ int main(void)
 	pid_t pid;
 	int show_prompt = isatty(STDIN_FILENO);
 	int status, exit_status = 0;
-
 	while (1)
 	{
 		if (show_prompt)
@@ -26,12 +25,17 @@ int main(void)
 			continue;
 		if (_strcmp(args[0], "exit") == 0)
 			return (exit_status);
+		if (_strcmp(args[0], "env") == 0)
+		{
+			env_builtin();
+			continue;
+		}
 		pid = fork();
 		if (pid == 0)
 		{
 			execvp(args[0], args);
 			write(STDERR_FILENO, error_msg, sizeof(error_msg));
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 		else if (pid < 0)
 		{
@@ -40,12 +44,9 @@ int main(void)
 		}
 		else
 		{
-			if (_strcmp(args[0], "env") == 0)
-				env_builtin();
 			wait(&status);
 			if (WIFEXITED(status))
 				exit_status = WEXITSTATUS(status);
-			wait(NULL);
 		}
 	}
 	return (0);
