@@ -6,6 +6,8 @@
   *
   * Return: int value
   */
+
+
 int _strcmp(char *s1, char *s2)
 {
 	int a = 0, b = 0, c = 0, r = 0, lim;
@@ -14,12 +16,10 @@ int _strcmp(char *s1, char *s2)
 	{
 		a++;
 	}
-
 	while (s2[b])
 	{
 		b++;
 	}
-
 	if (a <= b)
 	{
 		lim = a;
@@ -28,7 +28,6 @@ int _strcmp(char *s1, char *s2)
 	{
 		lim = b;
 	}
-
 	while (c <= lim)
 	{
 		if (s1[c] == s2[c])
@@ -41,12 +40,10 @@ int _strcmp(char *s1, char *s2)
 			r = s1[c] - s2[c];
 			break;
 		}
-
-		c++;
 	}
-
 	return (r);
 }
+
 
 /**
  * strtrim - removes trailing wwhitespace from a string
@@ -81,6 +78,7 @@ char *_strtok(char *str, const char *delim)
 	static char *last;
 	char *tok;
 	const char *delim_pos;
+
 	if (str)
 		last = str;
 	if (!*last)
@@ -97,8 +95,7 @@ char *_strtok(char *str, const char *delim)
 				last++;
 				if (*tok)
 					return (tok);
-				else
-					tok = last;
+				tok = last;
 				break;
 			}
 			delim_pos++;
