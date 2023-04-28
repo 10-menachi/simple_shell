@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	char *filename;
 	int read_count;
 	int fd = STDIN_FILENO;
+	int show_prompt = isatty(STDIN_FILENO);
 
 	if (argc > 1)
 	{
@@ -30,11 +31,12 @@ int main(int argc, char *argv[])
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
+		show_prompt = 0;
 	}
 
 	while (1)
 	{
-	if (argc == 1)
+	if (show_prompt)
 		write(STDOUT_FILENO, "#cisfun$ ", 9);
 	read_count = read(fd, prompt, MAX_INPUT_LENGTH);
 		if (read_count == 0)
@@ -52,12 +54,15 @@ int main(int argc, char *argv[])
 		}
 		else if (pid < 0)
 		{
-			write(STDERR_FILENO, error_msg, sizeof(error_msg_fork));
+			write(STDERR_FILENO, error_msg_fork, sizeof(error_msg_fork));
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			wait(NULL);
+			if (_strcmp(args[0], "env") == 0)
+				env_builtin();
+			else
+				wait(NULL);
 		}
 	}
 	return (0);
