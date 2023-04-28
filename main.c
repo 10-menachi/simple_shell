@@ -21,6 +21,8 @@ int main(void)
 		parse_input(prompt, args);
 		if (args[0] == NULL)
 			continue;
+		if (_strcmp(args[0], "exit") == 0)
+			return (0);
 		pid = fork();
 		if (pid == 0)
 		{
