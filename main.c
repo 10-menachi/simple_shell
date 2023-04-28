@@ -1,24 +1,46 @@
 #include "shell.h"
+#include <fcntl.h>
 
 /**
  * main - Entry Point
- *
+ * @argc: The number of arguments passed to the program
+ * @argv: An array of strings containing the arguments
  * Return: 0
  */
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	char prompt[MAX_INPUT_LENGTH];
 	char *args[MAX_INPUT_LENGTH / 2 + 1];
 	char error_msg[] = "Command not found.\n";
 	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
+	char *filename;
+	int read_count;
+	int fd = STDIN_FILENO;
+
+	if (argc > 1)
+	{
+	filename = argv[1];
+	fd =  open(filename, O_RDONLY);
+		if (fd == -1)
+		{
+		perror("open");
+		exit(EXIT_FAILURE);
+		}
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 
 	while (1)
 	{
+	if (argc == 1)
 		write(STDOUT_FILENO, "#cisfun$ ", 9);
-		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
+	read_count = read(fd, prompt, MAX_INPUT_LENGTH);
+		if (read_count == 0)
 			break;
+		if (prompt[0] == '\n')
+			continue;
 		prompt[strcspn(prompt, "\n")] = '\0';
 		parse_input(prompt, args);
 		pid = fork();

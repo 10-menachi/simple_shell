@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "shell.h"
 /**
 * execute - executes
 * @args: arguments
@@ -36,6 +37,7 @@ void execute(char **args)
 	exit(EXIT_FAILURE);
 	}
 	} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	handle_error(args[0], status);
 	}
 }
 
