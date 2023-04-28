@@ -1,8 +1,7 @@
 #include "shell.h"
 
 /**
- * main - Entry Point
- *
+ * main - entry point
  * Return: 0
  */
 
@@ -13,10 +12,12 @@ int main(void)
 	char error_msg[] = "Command not found.\n";
 	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
+	int show_prompt = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "#cisfun$ ", 9);
+		if (show_prompt)
+			write(STDOUT_FILENO, "#cisfun$ ", 9);
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
