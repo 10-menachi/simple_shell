@@ -45,6 +45,8 @@ int main(int argc, char *argv[])
 			continue;
 		prompt[strcspn(prompt, "\n")] = '\0';
 		parse_input(prompt, args);
+		if (args[0] == NULL)
+			continue;
 		pid = fork();
 		if (pid == 0)
 		{
@@ -61,8 +63,7 @@ int main(int argc, char *argv[])
 		{
 			if (_strcmp(args[0], "env") == 0)
 				env_builtin();
-			else
-				wait(NULL);
+			wait(NULL);
 		}
 	}
 	return (0);
