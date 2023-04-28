@@ -17,8 +17,20 @@ int execute_command(char **args)
 	if (pid == 0)
 	{
 		execvp(args[0], args);
-		write(STDERR_FILENO, error_msg, sizeof(error_msg));
-		exit(127);
+		if (errno == ENOENT)
+		{
+			char error_msg_file[] = "./hsh: 0: Can't open ";
+
+			write(STDERR_FILENO, error_msg_file, sizeof(error_msg_file) - 1);
+			write(STDERR_FILENO, args[0], strlen(args[0]));
+			write(STDERR_FILENO, "\n", 1);
+			exit(127);
+		}
+		else
+		{
+			write(STDERR_FILENO, error_msg, sizeof(error_msg));
+			exit(127);
+		}
 	}
 	else if (pid < 0)
 	{
