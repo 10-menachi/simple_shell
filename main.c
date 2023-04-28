@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * main - entry point
+ * main - Entry Point
  *
  * Return: 0
  */
@@ -9,7 +9,7 @@
 int main(void)
 {
 	char prompt[MAX_INPUT_LENGTH];
-	char *args[2];
+	char *args[MAX_INPUT_LENGTH / 2 + 1];
 	char error_msg[] = "Command not found.\n";
 	char error_msg_fork[] = "Failed to fork.\n";
 	pid_t pid;
@@ -20,8 +20,7 @@ int main(void)
 		if (fgets(prompt, MAX_INPUT_LENGTH, stdin) == NULL)
 			break;
 		prompt[strcspn(prompt, "\n")] = '\0';
-		args[0] = prompt;
-		args[1] = NULL;
+		parse_input(prompt, args);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -36,7 +35,10 @@ int main(void)
 		}
 		else
 		{
-			wait(NULL);
+			if (_strcmp(args[0], "env") == 0)
+				env_builtin();
+			else
+				wait(NULL);
 		}
 	}
 	return (0);
