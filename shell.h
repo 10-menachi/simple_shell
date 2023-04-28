@@ -9,10 +9,14 @@
 #include <sys/wait.h>
 
 #define MAX_INPUT_LENGTH 256
+
+extern char **environ;
+
 void shell_exit(void);
 void parse_input(char *input, char **args);
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 int _strcmp(char *s1, char *s2);
 char *strtrim(char *str);
 char *find_path(char *command);
+void env_builtin(void);
 #endif /* SHELL_H */
