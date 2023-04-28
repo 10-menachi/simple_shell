@@ -21,11 +21,6 @@ int main(void)
 		parse_input(prompt, args);
 		if (args[0] == NULL)
 			continue;
-		if (access(args[0], F_OK | X_OK) != 0)
-		{
-			write(STDERR_FILENO, error_msg, sizeof(error_msg));
-			continue;
-		}
 		pid = fork();
 		if (pid == 0)
 		{
