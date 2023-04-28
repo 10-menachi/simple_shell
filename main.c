@@ -30,7 +30,7 @@ int main(void)
 		}
 		else if (pid < 0)
 		{
-			write(STDERR_FILENO, error_msg, sizeof(error_msg_fork));
+			write(STDERR_FILENO, error_msg_fork, sizeof(error_msg_fork));
 			exit(EXIT_FAILURE);
 		}
 		else
